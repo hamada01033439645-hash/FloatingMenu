@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+env:
+  ANDROID_HOME: /usr/local/lib/android/sdk
+  ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -20,19 +24,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK tools
+      - name: Install Android SDK packages
         run: |
-          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort -V | tail -n 1)"
+          yes | "$SDKMANAGER" --licenses
+          "$SDKMANAGER" --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Install Buildozer
-        run: |
-          pip install buildozer cython==0.29.37
+        run: pip install buildozer cython==0.29.37
 
       - name: Build APK
-        run: |
-          buildozer android debug
+        run: buildozer android debug
 
       - uses: actions/upload-artifact@v4
         with:
