@@ -335,10 +335,10 @@ android.allow_backup = True
 #p4a.fork = kivy
 
 # (str) python-for-android branch to use, defaults to master
-#p4a.branch = master
+p4a.branch = master
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
-#p4a.commit = HEAD
+p4a.commit = e564e44dcaefe2555698184b7a3b907235e41d1d
 
 # (str) python-for-android git clone directory
 #p4a.source_dir =
